@@ -155,36 +155,37 @@
   <script type="text/javascript" src="https://dpmptsp.jabarprov.go.id/kehadiran/assets/js/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" src="https://dpmptsp.jabarprov.go.id/kehadiran/assets/js/jquery.signature.js"></script>
   <script>
-    $(function() {
-      var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
-      $('#clear').click(function(e) {
-        e.preventDefault();
-        sig.signature('clear');
-        $("#signature64").val('');
-      });
+  $(function() {
+    var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
+    $('#clear').click(function(e) {
+      e.preventDefault();
+      sig.signature('clear');
+      $("#signature64").val('');
     });
+  });
 
-    $('#attendanceForm').submit(function(event) {
-      event.preventDefault();
-      var formData = new FormData(this);
+  $('#attendanceForm').submit(function(event) {
+    event.preventDefault();
+    var formData = new FormData(this);
 
-      fetch('https://script.google.com/macros/s/AKfycbzLyiXBI8MBHDx256TciiAG2D2hId1V9wLcbeskNCSfnU9cHrg31gkiByTovrX-ldyo/exec', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.text())
-      .then(result => {
-        if (result === 'Success') {
-          window.location.href = 'index.html';  // Ganti dengan URL halaman utama
-        } else {
-          alert('There was an error submitting the form.');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('There was an error submitting the form.');
-      });
+    fetch('https://script.google.com/macros/s/AKfycbzLyiXBI8MBHDx256TciiAG2D2hId1V9wLcbeskNCSfnU9cHrg31gkiByTovrX-ldyo/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(result => {
+      console.log(result);  // Tambahkan ini untuk debugging
+      if (result.includes('Success')) {
+        window.location.href = 'index.html';  // Ganti dengan URL halaman utama
+      } else {
+        alert('There was an error submitting the form: ' + result);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('There was an error submitting the form.');
     });
+  });
   </script>
 </body>
 </html>
